@@ -1,0 +1,42 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	width: 100vw;
+	height: 100vh;
+	margin: 0;
+	background: linear-gradient(to top left, red, blue) fixed;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+section {
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+}
+
+textarea {
+	justify-self: center;
+	width: 60vw;
+	height: 80vh;
+	resize: none;
+	background: khaki;
+	border: none;
+	border-radius: 16px;
+	border-bottom-left-radius: 0;
+	padding: 2rem;
+	font-family: monospace;
+	font-size: 14pt;
+}
+
+button {
+	color: white;
+	background: #e96002ff;
+	border: solid 4px white;
+	border-radius: 8px;
+	font-family: monospace;
+	font-size: 16pt;
+	padding: 0.2rem 0.8rem;
+}
