@@ -39,4 +39,10 @@ button {
 	font-family: monospace;
 	font-size: 16pt;
 	padding: 0.2rem 0.8rem;
+	transition: all 200ms;
+
+	&:active {
+		background: hsl(from #e96002ff calc(h + 180) s l);
+		border: solid 4px black;
+	}
 }
