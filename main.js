@@ -107,8 +107,8 @@ class RTTTLParser {
 	  throw new Error(`Error parsing: ${token}. Expected one of {a, b, c, d, e, f, g, p}`);
 	const digits = token.match(/[0-9]*[0-9]/g) ?? [];
 	
-	if (!isNaN(token[0])) {
-	  returnData.division = Number(token[0]);
+	if (!isNaN(token[0])) { // If is a number.
+	  returnData.division = Number(digits.length > 0 ? digits[0] : this.defaultDivision);
 	  if (digits.length == 2) {
 		returnData.octave = Number(digits[1]);
 	  }
@@ -141,7 +141,8 @@ class RTTTLParser {
 		  sharp: returnData.sharp
 		});
 	returnData.duration = bpmToMsPerBeat(this.bpm)/returnData.division;
-	
+	if (returnData.dotted)
+	  returnData.duration *= 1.5;
 	return returnData;
   }
   
@@ -154,6 +155,9 @@ class RTTTLParser {
 	this.defaultValuesTokens.forEach((element, index, array) => { array[index] = element.trim(); });
 	this.dataTokens = sections[2].split(",");
 	this.dataTokens.forEach((element, index, array) => { array[index] = element.trim(); });
+	// Some authors use a "," at the end.
+	if (this.dataTokens[this.dataTokens.length - 1] == "")
+	  this.dataTokens.pop();
   }
   
   #parseDefaultValues() {
@@ -176,14 +180,19 @@ let p = new RTTTLParser(testString);
 let ctx = new AudioContext();
 
 document.querySelector("textarea").value = 
-	"Indiana:d=4,o=5,b=80:" +
-	"e,8p,8f,8g,8p,1c6,8p.,d," +
-	"8p,8e,1f,p.,g,8p,8a,8b,8p," +
-	"1f6,p,a,8p,8b,2c6,2d6,2e6," +
-	"e,8p,8f,8g,8p,1c6,p,d6,8p," +
-	"8e6,1f.6,g,8p,8g,e.6,8p,d6," +
-	"8p,8g,e.6,8p,d6,8p,8g,f.6,8p," +
-	"e6,8p,8d6,2c6";
+	// "Indiana:d=4,o=5,b=80:" +
+	// "e,8p,8f,8g,8p,1c6,8p.,d," +
+	// "8p,8e,1f,p.,g,8p,8a,8b,8p," +
+	// "1f6,p,a,8p,8b,2c6,2d6,2e6," +
+	// "e,8p,8f,8g,8p,1c6,p,d6,8p," +
+	// "8e6,1f.6,g,8p,8g,e.6,8p,d6," +
+	// "8p,8g,e.6,8p,d6,8p,8g,f.6,8p," +
+	// "e6,8p,8d6,2c6";
+	"Greensleaves:d=4,o=5,b=80:" +
+	"g,2a#,c6,d.6,8d#6,d6,2c6,a," +
+	"f.,8g,a,2a#,g,g.,8f,g,2a,f," +
+	"2d,g,2a#,c6,d.6,8e6,d6,2c6," +
+	"a,f.,8g,a,a#.,8a,g,f#.,8e,f#,2g";
 
 if (document.querySelector("textarea").value != "") {
   p.parse(document.querySelector("textarea").value);
@@ -206,8 +215,16 @@ function playSquare() {
 }
 
 let playingOsc;
+let playing = false;
 document.getElementById("playButton").addEventListener("click", () => {
-  playingOsc = playSquare();
+  if (!playing) {
+	playingOsc = playSquare();
+	playingOsc.addEventListener("ended", () => {
+	  playing = false; 
+	  playingOsc.disconnect();
+	})
+	playing = true;
+  }
   console.log("hello,");
 });
 
