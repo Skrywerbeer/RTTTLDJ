@@ -21,8 +21,8 @@ function bpmToMsPerBeat(bpm) {
 
 class NoteLUT {
   #NOTE_LUT;
-  constructor() {
-	this.NOTE_LUT = [... this.#lutGenerator(88)];
+  constructor(count) {
+	this.NOTE_LUT = [... this.#lutGenerator(count)];
   }
   
   lookupFrequency(note) {
@@ -37,7 +37,7 @@ class NoteLUT {
 		return element.frequency;
 	  }
 	}
-	throw new Error(`Could not find ${note.letter}.`);
+	throw new Error(`Could not find ${note.letter}${note.sharp ? "#" : ""}${note.octave}.`);
   }
   
   *#noteGenerator() {
@@ -81,7 +81,10 @@ class RTTTLParser {
   #NoteLUT;
   constructor(parseString) {
 	this.parse(parseString);
-	this.#NoteLUT = new NoteLUT();
+	this.#NoteLUT = new NoteLUT(100);
+  }
+  lut() {
+	return this.#NoteLUT;
   }
   
   parse(parseString) {
