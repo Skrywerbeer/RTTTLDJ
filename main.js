@@ -1,5 +1,7 @@
 import RTTTLParser from "./RTTTLParser.js";
 
+import RTTTLRepository from "./RTTTLRepository.js";
+
 const testString =
 	"HauntHouse: d=4,o=5,b=108: " +
 	"2a4, 2e, 2d#, 2b4, 2a4, 2c, 2d," +
@@ -30,7 +32,7 @@ textArea.value =
 	"2d,g,2a#,c6,d.6,8e6,d6,2c6," +
 	"a,f.,8g,a,a#.,8a,g,f#.,8e,f#,2g";
 
-if (textArea.value != "") {
+if (textArea.value !== "") {
   p.parse(textArea.value);
 }
 
@@ -41,11 +43,11 @@ function playSquare() {
   osc.type = "square";
   osc.connect(ctx.destination);
   let accumulator = 0;
+	osc.start(ctx.currentTime);
   for (const note of notes) {
 	osc.frequency.setValueAtTime(note.frequency, ctx.currentTime + accumulator/1000);
 	accumulator += note.duration;
   }
-  osc.start(ctx.currentTime);
   osc.stop(ctx.currentTime + accumulator/1000);
   return osc;
 }
@@ -72,9 +74,35 @@ textArea.addEventListener("input", () => {
   notes = [... p.notes()];
 });
 
-function newRingtone(newName) {
-  if (typeof(newName != "string"))
-	  throw new Error("Argument error: expected string.");
-
-
+function newRingtone(newName, defaults) {
+  if (typeof(newName) !== "string")
+	  throw new Error("Argument error: expected string for newName.");
+  if (typeof(defaults) !== "string")
+	throw new Error("Argument error: expected string for defaults")
+  textArea.value = `${newName}:${defaults}:`;
 }
+
+newButton.addEventListener("click", () => {
+  newRingtone("untitled", "d=4,o=4,b=100");
+  console.log(repo.filenames)
+})
+
+let repo = new RTTTLRepository();
+console.log(repo);
+console.log(p);
+repo.getFileListAsync().then((text) => {
+  const ul = document.querySelector("#libary ul");
+  const filenames = text.split("\n");
+  for (const filename of filenames) {
+	const li = document.createElement("li");
+	const btn = document.createElement("button");
+	btn.setAttribute("type", "button");
+	btn.textContent = filename;
+	li.appendChild(btn);
+	ul.appendChild(li);
+	btn.addEventListener("click", async () => {
+	  textArea.value = await repo.getFileTextAsync("./assets/tunes/" + filename);
+	  textArea.dispatchEvent(new InputEvent("input"));
+	});
+  }
+});

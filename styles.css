@@ -13,6 +13,7 @@
 	
 	box-sizing: border-box;
 	font-family: VT323;
+	font-size: 16pt;
 }
 
 body {
@@ -49,21 +50,23 @@ section.controls {
 		
 	}
 
-	& button {
-		color: white;
-		background: var(--primaryColor);
-		border: solid 4px white;
-		border-radius: 8px;
-		font-size: 16pt;
-		padding: 0.2rem 0.8rem;
-		transition: all 200ms;
 
-		&:active {
-			background: hsl(from var(--primaryColor) calc(h + 180) s l);
-			border: solid 4px black;
-		}
+
+}
+
+button {
+	color: white;
+	background: var(--primaryColor);
+	border: solid 4px white;
+	border-radius: 8px;
+	font-size: 16pt;
+	padding: 0.2rem 0.8rem;
+	transition: all 200ms;
+
+	&:active {
+		background: hsl(from var(--primaryColor) calc(h + 180) s l);
+		border: solid 4px black;
 	}
-
 }
 
 textarea {
@@ -79,3 +82,21 @@ textarea {
 	font-size: 24pt;
 }
 
+#libary {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	& ul {
+		list-style: none;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+
+		gap: 0.5rem;
+
+		& li {
+			margin: 0;
+		}
+	}
+}
