@@ -27,48 +27,26 @@ export default class RTTTLParser {
   parseDataToken(token) {
 	if (!token || typeof(token) != "string")
 	  throw new Error(`Argument error: expected string as argument for parseNote. Got: ${token}`);
-	const returnData = {};
-	returnData.letter = token?.match(/[abcdefgp]/g)?.at(0);
-	if (!returnData.letter)
-	  throw new Error(`Error parsing: ${token}. Expected one of {a, b, c, d, e, f, g, p}`);
-	const digits = token.match(/[0-9]*[0-9]/g) ?? [];
-
-	if (!isNaN(token[0])) { // If is a number.
-	  returnData.division = Number(digits.length > 0 ? digits[0] : this.defaultDivision);
-	  if (digits.length == 2) {
-		returnData.octave = Number(digits[1]);
-	  }
-	  else if (digits.length == 1) {
-		returnData.octave = this.defaultOctave;
-	  }
-	  // digits.length > 2
-	  else {
-		throw new Error(`Error parsing: ${token}. Expected only two digits.`);
-	  }
+	const matches = token.match(
+		/(?<division>[0-9]+)?(?<letter>[a-gp])(?<octave>[0-9])?(?<sharp>#)?(?<dot>\.)?/
+	);
+	if (!matches.groups.letter)
+	  throw new Error("Data token must contain one of [a, b, c, d, e, f, g, p].");
+	const returnData  = {
+	  division: matches.groups.division ? Number(matches.groups.division) : this.defaultDivision,
+	  letter: matches.groups.letter,
+	  octave: matches.groups.octave ? Number(matches.groups.octave) : this.defaultOctave,
+	  sharp: matches.groups.sharp ? true : false,
+	  dotted: matches.groups.dot ? true : false,
 	}
-	else {
-	  returnData.division = this.defaultDivision;
-	  if (digits.length == 1) {
-		returnData.octave = Number(digits[0]);
-	  }
-	  else if (digits.length == 0) {
-		returnData.octave = this.defaultOctave;
-	  }
-	  else {
-		throw new Error(`Error parsing note: ${token}`);
-	  }
-	}
-	returnData.sharp = token.match(/#/g) ? true : false;
-	returnData.dotted = token.match(/\./g) ? true : false;
-	returnData.frequency = this.#NoteLUT.lookupFrequency(
-		{
-		  letter: returnData.letter,
-		  octave: returnData.octave,
-		  sharp: returnData.sharp
-		});
-	returnData.duration = 4*this.#bpmToMsPerBeat(this.bpm)/returnData.division;
+	returnData.duration = 4*this.#bpmToMsPerBeat(this.bpm)/returnData.division
 	if (returnData.dotted)
 	  returnData.duration *= 1.5;
+	returnData.frequency = this.#NoteLUT.lookupFrequency({
+	  letter: returnData.letter,
+	  octave: returnData.octave,
+	  sharp: returnData.sharp
+	});
 	return returnData;
   }
 
