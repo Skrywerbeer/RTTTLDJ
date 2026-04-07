@@ -9,10 +9,13 @@ const testString =
 	" 1a4, 1d#, 2e., d, 2c., b4, 1a4";
 
 let p = new RTTTLParser(testString);
-
 let ctx = new AudioContext();
+const textArea = document.querySelector("textarea");
+const newButton = document.getElementById("newButton");
+const playButton = document.getElementById("playButton");
+const stopButton = document.getElementById("stopButton");
 
-document.querySelector("textarea").value = 
+textArea.value =
 	// "Indiana:d=4,o=5,b=80:" +
 	// "e,8p,8f,8g,8p,1c6,8p.,d," +
 	// "8p,8e,1f,p.,g,8p,8a,8b,8p," +
@@ -27,8 +30,8 @@ document.querySelector("textarea").value =
 	"2d,g,2a#,c6,d.6,8e6,d6,2c6," +
 	"a,f.,8g,a,a#.,8a,g,f#.,8e,f#,2g";
 
-if (document.querySelector("textarea").value != "") {
-  p.parse(document.querySelector("textarea").value);
+if (textArea.value != "") {
+  p.parse(textArea.value);
 }
 
 let notes = [... p.notes()];
@@ -49,7 +52,7 @@ function playSquare() {
 
 let playingOsc;
 let playing = false;
-document.getElementById("playButton").addEventListener("click", () => {
+playButton.addEventListener("click", () => {
   if (!playing) {
 	playingOsc = playSquare();
 	playingOsc.addEventListener("ended", () => {
@@ -60,11 +63,18 @@ document.getElementById("playButton").addEventListener("click", () => {
   }
 });
 
-document.getElementById("stopButton").addEventListener("click", () => {
+stopButton.addEventListener("click", () => {
   playingOsc.stop();
 });
 
-document.querySelector("textarea").addEventListener("input", () => {
-  p.parse(document.querySelector("textarea").value);
+textArea.addEventListener("input", () => {
+  p.parse(textArea.value);
   notes = [... p.notes()];
 });
+
+function newRingtone(newName) {
+  if (typeof(newName != "string"))
+	  throw new Error("Argument error: expected string.");
+
+
+}
