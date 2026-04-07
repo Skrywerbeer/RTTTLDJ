@@ -22,9 +22,6 @@ export default class NoteLUT {
   *#noteGenerator() {
 	const notes =
 		[
-		  {letter: "a", sharp: false},
-		  {letter: "a", sharp: true},
-		  {letter: "b", sharp: false},
 		  {letter: "c", sharp: false},
 		  {letter: "c", sharp: true},
 		  {letter: "d", sharp: false},
@@ -33,7 +30,10 @@ export default class NoteLUT {
 		  {letter: "f", sharp: false},
 		  {letter: "f", sharp: true},
 		  {letter: "g", sharp: false},
-		  {letter: "g", sharp: true}
+		  {letter: "g", sharp: true},
+		  {letter: "a", sharp: false},
+		  {letter: "a", sharp: true},
+		  {letter: "b", sharp: false}
 		];
 	for (let i = 0, octave = 0; ; i++) {
 	  if (i == notes.length) {
@@ -48,9 +48,9 @@ export default class NoteLUT {
 
   *#lutGenerator(count=12) {
 	let noteGen = this.#noteGenerator();
-	const a0Frequency = 27.5;
+	const c0Frequency = 16.3516;
 	for (let i = 0; i < count; i++) {
-	  yield {note: noteGen.next().value, frequency: a0Frequency*Math.pow(2, i/12)};
+	  yield {note: noteGen.next().value, frequency: c0Frequency*Math.pow(2, i/12)};
 	}
 	return;
   }
