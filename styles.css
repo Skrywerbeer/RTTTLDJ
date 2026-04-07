@@ -1,5 +1,18 @@
+@font-face {
+	font-family: "Doto";
+	src: url("./assets/fonts/Doto/Doto-VariableFont_ROND,wght.ttf");
+}
+
+@font-face {
+	font-family: "VT323";
+	src: url("./assets/fonts/VT323/VT323-Regular.ttf");
+}
+
 * {
+	--primaryColor: #e96002ff;
+	
 	box-sizing: border-box;
+	font-family: VT323;
 }
 
 body {
@@ -12,9 +25,45 @@ body {
 	align-items: center;
 }
 
-section {
+section.controls {
+	display: flex;
+	justify-content: center;
+	gap: 42px;
 	margin-top: 2rem;
 	margin-bottom: 2rem;
+	width: 80vw;
+
+	div {
+		background: var(--primaryColor);
+		border: solid 4px white;
+		border-radius: 8px;
+		padding: 0.2rem 0.8rem;
+	}
+	
+	& label {
+		font-size: 16pt;
+		color: white
+	}
+	
+	& input[type="checkbox"] {
+		
+	}
+
+	& button {
+		color: white;
+		background: var(--primaryColor);
+		border: solid 4px white;
+		border-radius: 8px;
+		font-size: 16pt;
+		padding: 0.2rem 0.8rem;
+		transition: all 200ms;
+
+		&:active {
+			background: hsl(from var(--primaryColor) calc(h + 180) s l);
+			border: solid 4px black;
+		}
+	}
+
 }
 
 textarea {
@@ -27,22 +76,6 @@ textarea {
 	border-radius: 16px;
 	border-bottom-left-radius: 0;
 	padding: 2rem;
-	font-family: monospace;
-	font-size: 14pt;
+	font-size: 24pt;
 }
 
-button {
-	color: white;
-	background: #e96002ff;
-	border: solid 4px white;
-	border-radius: 8px;
-	font-family: monospace;
-	font-size: 16pt;
-	padding: 0.2rem 0.8rem;
-	transition: all 200ms;
-
-	&:active {
-		background: hsl(from #e96002ff calc(h + 180) s l);
-		border: solid 4px black;
-	}
-}
