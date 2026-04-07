@@ -55,8 +55,8 @@ export default class RTTTLParser {
 	if (sections.length != 3)
 	  throw new Error("Error parsing sections.");
 	this.name = sections[0];
-	this.defaultValuesTokens = sections[1].split(",");
-	this.defaultValuesTokens.forEach((element, index, array) => { array[index] = element.trim(); });
+	this.defaultValuesSection = sections[1].split(",");
+	this.defaultValuesSection.forEach((element, index, array) => { array[index] = element.trim(); });
 	this.dataTokens = sections[2].split(",");
 	this.dataTokens.forEach((element, index, array) => { array[index] = element.trim(); });
 	// Some authors use a "," at the end.
@@ -66,9 +66,25 @@ export default class RTTTLParser {
 
   #parseDefaultValues() {
 	// Use .slice(2) to throw away the *= parts.
-	this.defaultDivision = Number(this.defaultValuesTokens[0].slice(2));
-	this.defaultOctave = Number(this.defaultValuesTokens[1].slice(2));
-	this.bpm = Number(this.defaultValuesTokens[2].slice(2));
+	// this.defaultDivision = Number(this.defaultValuesSection[0].slice(2));
+	// this.defaultOctave = Number(this.defaultValuesSection[1].slice(2));
+	// this.bpm = Number(this.defaultValuesSection[2].slice(2));
+	const valuePairs = this.defaultValuesSection.map((ele) => ele.split("="));
+	for (const pair of valuePairs) {
+	  switch (pair[0]) {
+		case ("d"):
+		  this.defaultDivision = Number(pair[1]);
+		  break;
+		case ("o"):
+		  this.defaultOctave = Number(pair[1]);
+		  break;
+		case ("b"):
+		  this.bpm = Number(pair[1]);
+		  break;
+		default:
+		  throw new Error("Error parsing default values.");
+	  }
+	}
   }
   #bpmToMsPerBeat(bpm) {
 	return (60/bpm)*1000;
