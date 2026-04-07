@@ -2,6 +2,7 @@ import NoteLUT from "./NoteLUT.js";
 
 export default class RTTTLParser {
   #NoteLUT;
+
   constructor(parseString) {
 	this.parse(parseString);
 	this.#NoteLUT = new NoteLUT(100);
@@ -14,7 +15,6 @@ export default class RTTTLParser {
 	this.parsedString = parseString;
 	this.#parseSections();
 	this.#parseDefaultValues();
-	this.dataTokenIndex = 0;
   }
 
   *notes() {
