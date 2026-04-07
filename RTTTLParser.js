@@ -66,7 +66,7 @@ export default class RTTTLParser {
 		  octave: returnData.octave,
 		  sharp: returnData.sharp
 		});
-	returnData.duration = this.#bpmToMsPerBeat(this.bpm)/returnData.division;
+	returnData.duration = 4*this.#bpmToMsPerBeat(this.bpm)/returnData.division;
 	if (returnData.dotted)
 	  returnData.duration *= 1.5;
 	return returnData;
