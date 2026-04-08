@@ -27,8 +27,10 @@ export default class RTTTLParser {
   parseDataToken(token) {
 	if (!token || typeof(token) != "string")
 	  throw new Error(`Argument error: expected string as argument for parseNote. Got: ${token}`);
+	// Note: The BNF for RTTTL specifies that the dot comes after the scale digit, yet all example put
+	// the dot before the scale digit. We'll handle both cases just in case.
 	const matches = token.match(
-		/(?<division>[0-9]+)?(?<letter>[a-gp])(?<sharp>#)?(?<octave>[0-9])?(?<dot>\.)?/
+		/(?<division>[0-9]+)?(?<letter>[a-gp])(?<sharp>#)?(?<dot1>\.)?(?<octave>[0-9])?(?<dot2>\.)?/
 	);
 	if (!matches.groups.letter)
 	  throw new Error("Data token must contain one of [a, b, c, d, e, f, g, p].");
@@ -37,7 +39,7 @@ export default class RTTTLParser {
 	  letter: matches.groups.letter,
 	  octave: matches.groups.octave ? Number(matches.groups.octave) : this.defaultOctave,
 	  sharp: matches.groups.sharp ? true : false,
-	  dotted: matches.groups.dot ? true : false,
+	  dotted: (matches.groups.dot1 || matches.groups.dot2) ? true : false,
 	}
 	returnData.duration = 4*this.#bpmToMsPerBeat(this.bpm)/returnData.division
 	if (returnData.dotted)
