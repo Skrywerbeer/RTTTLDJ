@@ -9,8 +9,8 @@
 }
 
 * {
-	--primaryColor: #e96002ff;
-	
+	/*--primaryColor: #e96002ff;*/
+	--primaryColor: slateblue;
 	box-sizing: border-box;
 	font-family: VT323;
 	font-size: 16pt;
@@ -20,7 +20,7 @@ body {
 	width: 100vw;
 	height: 100vh;
 	margin: 0;
-	background: linear-gradient(to top left, red, blue) fixed;
+	background: linear-gradient(to top left, darkcyan, darkslateblue) fixed;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -86,13 +86,15 @@ textarea {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	height: 20vh;
+	width: 80vw;
 
 	& ul {
 		list-style: none;
 		padding: 0;
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-
+		width: 80vw;
 		gap: 0.5rem;
 
 		& li {
