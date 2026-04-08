@@ -11,6 +11,7 @@
 * {
 	/*--primaryColor: #e96002ff;*/
 	--primaryColor: slateblue;
+	color: white;
 	box-sizing: border-box;
 	font-family: VT323;
 	font-size: 16pt;
@@ -24,6 +25,11 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+
+	h1 {
+		font-size: 64pt;
+		margin-top: 4rem;
+	}
 }
 
 section.controls {
@@ -34,7 +40,7 @@ section.controls {
 	margin-bottom: 2rem;
 	width: 80vw;
 
-	div {
+	& div {
 		background: var(--primaryColor);
 		border: solid 4px white;
 		border-radius: 8px;
@@ -49,9 +55,6 @@ section.controls {
 	& input[type="checkbox"] {
 		
 	}
-
-
-
 }
 
 button {
@@ -75,6 +78,7 @@ textarea {
 	height: 80vh;
 	resize: none;
 	background: khaki;
+	color: black;
 	border: none;
 	border-radius: 16px;
 	border-bottom-left-radius: 0;
@@ -119,5 +123,15 @@ textarea {
 				margin-left: auto;
 			}
 		}
+	}
+}
+
+nav ul {
+	list-style: none;
+	padding: 0;
+	margin-top: 8rem;
+
+	& li {
+		margin-bottom: 2rem;
 	}
 }
