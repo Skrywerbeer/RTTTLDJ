@@ -28,7 +28,7 @@ export default class RTTTLParser {
 	if (!token || typeof(token) != "string")
 	  throw new Error(`Argument error: expected string as argument for parseNote. Got: ${token}`);
 	const matches = token.match(
-		/(?<division>[0-9]+)?(?<letter>[a-gp])(?<octave>[0-9])?(?<sharp>#)?(?<dot>\.)?/
+		/(?<division>[0-9]+)?(?<letter>[a-gp])(?<sharp>#)?(?<octave>[0-9])?(?<dot>\.)?/
 	);
 	if (!matches.groups.letter)
 	  throw new Error("Data token must contain one of [a, b, c, d, e, f, g, p].");
