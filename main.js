@@ -36,9 +36,9 @@ if (textArea.value !== "") {
   p.parse(textArea.value);
 }
 
-let notes = [... p.notes()];
+let textAreaNotes = [... p.notes()];
 
-function playSquare() {
+function playSquare(notes) {
   let osc = ctx.createOscillator();
   osc.type = "square";
   osc.connect(ctx.destination);
@@ -56,7 +56,8 @@ let playingOsc;
 let playing = false;
 playButton.addEventListener("click", () => {
   if (!playing) {
-	playingOsc = playSquare();
+	const notes = [...(new RTTTLParser(textArea.value)).notes()];
+	playingOsc = playSquare(notes);
 	playingOsc.addEventListener("ended", () => {
 	  playing = false; 
 	  playingOsc.disconnect();
@@ -71,7 +72,7 @@ stopButton.addEventListener("click", () => {
 
 textArea.addEventListener("input", () => {
   p.parse(textArea.value);
-  notes = [... p.notes()];
+  textAreaNotes = [... p.notes()];
 });
 
 function newRingtone(newName, defaults) {
@@ -91,18 +92,44 @@ let repo = new RTTTLRepository();
 console.log(repo);
 console.log(p);
 repo.getFileListAsync().then((text) => {
-  const ul = document.querySelector("#libary ul");
+  const ul = document.querySelector("#library ul");
   const filenames = text.split("\n");
+  const template = document.getElementById("libraryCardTemplate");
   for (const filename of filenames) {
-	const li = document.createElement("li");
-	const btn = document.createElement("button");
-	btn.setAttribute("type", "button");
-	btn.textContent = filename;
-	li.appendChild(btn);
-	ul.appendChild(li);
-	btn.addEventListener("click", async () => {
+	const card = document.importNode(template.content, true);
+	card.querySelector("label").textContent = filename;
+	const buttons = card.querySelectorAll("button");
+	buttons[0].addEventListener(("click"), async () => {
+	  if (!playing) {
+		const notes = [...(new RTTTLParser(await repo.getFileTextAsync("./assets/tunes/" + filename))).notes()];
+		console.log(notes);
+		playingOsc = playSquare(notes);
+		playingOsc.addEventListener("ended", () => {
+		  playing = false;
+		  playingOsc.disconnect();
+		})
+		playing = true;
+	  }
+	  else {
+		playingOsc.stop();
+		playingOsc.disconnect();
+		playing = false;
+	  }
+	});
+	buttons[1].addEventListener("click", async () => {
 	  textArea.value = await repo.getFileTextAsync("./assets/tunes/" + filename);
 	  textArea.dispatchEvent(new InputEvent("input"));
 	});
+	ul.appendChild(card);
+	// const li = document.createElement("li");
+	// const btn = document.createElement("button");
+	// btn.setAttribute("type", "button");
+	// btn.textContent = filename;
+	// li.appendChild(btn);
+	// ul.appendChild(li);
+	// btn.addEventListener("click", async () => {
+	//   textArea.value = await repo.getFileTextAsync("./assets/tunes/" + filename);
+	//   textArea.dispatchEvent(new InputEvent("input"));
+	// });
   }
 });

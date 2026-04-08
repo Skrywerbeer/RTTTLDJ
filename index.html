@@ -2,33 +2,39 @@
 
 <html>
   <head>
-	<title>RTTTLReader</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="stylesheet" href="styles.css" />
+	  <title>RTTTLReader</title>
+	  <meta charset="utf-8" />
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	  <link rel="stylesheet" href="styles.css" />
   </head>
 
   <body>
-	<section class="controls">
+  <section class="controls">
 	  <button id="newButton" type="button">New</button>
 <!--	  <button id="saveButton" type="button">Save</button>-->
 	  <button id="loadButton" type="button">Load</button>
 	  <div>
-		<label for="loop">Loop</label>
-		<input id="loop" name="loop" type="checkbox" />
+		  <label for="loop">Loop</label>
+		  <input id="loop" name="loop" type="checkbox" />
 	  </div>
 	  <button id="playButton" type="button">Play</button>
 	  <button id="stopButton" type="button">Stop</button>
-	</section>
-	<textarea>
-	</textarea>
+  </section>
+  <textarea>
+  </textarea>
 
-	<section id="libary">
-		<ul>
+  <section id="library">
+	  <ul>
+	  </ul>
+  </section>
+  <template id="libraryCardTemplate">
+	  <li>
+		  <label></label>
+		  <button type="button">⏯</button>
+		  <button type="button">📝</button>
+	  </li>
+  </template>
 
-		</ul>
-	</section>
-
-	<script type="module" src="main.js"></script>
+  <script type="module" src="main.js"></script>
   </body>
 </html>
