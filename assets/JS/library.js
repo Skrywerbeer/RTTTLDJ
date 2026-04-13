@@ -77,7 +77,7 @@ newButton.addEventListener("click", () => {
 let repo = new RTTTLRepository();
 
 repo.getFileListAsync().then((text) => {
-  const ul = document.querySelector("#library ul");
+  // const ul = document.querySelector("#library ul");
   const filenames = text.split("\n");
   const template = document.getElementById("libraryCardTemplate");
   for (const filename of filenames) {
@@ -104,6 +104,13 @@ repo.getFileListAsync().then((text) => {
 	  textArea.value = await repo.getFileTextAsync("./assets/tunes/" + filename);
 	  textArea.dispatchEvent(new InputEvent("input"));
 	});
+	const firstLetter = filename.split("/")[1]?.at(0);
+	let ul;
+	if (!isNaN(firstLetter))
+	  ul = document.querySelector("#library #songs #nonAlpha ul");
+	else
+	  ul = document.querySelector(`#library #songs #${firstLetter.toLowerCase()}${firstLetter.toUpperCase()} ul`);
+	// const ul = document.querySelector("#library ")
 	ul.appendChild(card);
   }
 });

@@ -135,3 +135,15 @@ nav ul {
 		margin-bottom: 2rem;
 	}
 }
+
+#songs {
+	& section {
+		display: none;
+
+		&:target {
+			display: block;
+		}
+	}
+
+
+}
