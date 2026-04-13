@@ -1,0 +1,11 @@
+#songs {
+	& section {
+		display: none;
+
+		&:target {
+			display: block;
+		}
+	}
+
+
+}

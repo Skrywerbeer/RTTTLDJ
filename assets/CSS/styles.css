@@ -1,11 +1,11 @@
 @font-face {
 	font-family: "Doto";
-	src: url("./assets/fonts/Doto/Doto-VariableFont_ROND,wght.ttf");
+	src: url("../fonts/Doto/Doto-VariableFont_ROND,wght.ttf");
 }
 
 @font-face {
 	font-family: "VT323";
-	src: url("./assets/fonts/VT323/VT323-Regular.ttf");
+	src: url("../fonts/VT323/VT323-Regular.ttf");
 }
 
 * {
@@ -136,14 +136,3 @@ nav ul {
 	}
 }
 
-#songs {
-	& section {
-		display: none;
-
-		&:target {
-			display: block;
-		}
-	}
-
-
-}
