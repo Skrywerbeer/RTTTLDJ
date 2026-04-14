@@ -1,6 +1,7 @@
 import RTTTLParser from "./RTTTLParser.js";
 
 import RTTTLRepository from "./RTTTLRepository.js";
+import RTTTLPlayer from "./RTTTLPlayer.js";
 
 const HauntedHouse =
 	"HauntHouse: d=4,o=5,b=108: " +
@@ -12,6 +13,7 @@ const HauntedHouse =
 
 let p = new RTTTLParser(HauntedHouse);
 let ctx = new AudioContext();
+let player = new RTTTLPlayer(ctx);
 const textArea = document.querySelector("textarea");
 const newButton = document.getElementById("newButton");
 const playButton = document.getElementById("playButton");
@@ -25,36 +27,15 @@ if (textArea.value !== "") {
 
 let textAreaNotes = [... p.notes()];
 
-function playSquare(notes) {
-  let osc = ctx.createOscillator();
-  osc.type = "square";
-  osc.connect(ctx.destination);
-  let accumulator = 0;
-  osc.start(ctx.currentTime);
-  for (const note of notes) {
-	osc.frequency.setValueAtTime(note.frequency, ctx.currentTime + accumulator/1000);
-	accumulator += note.duration;
-  }
-  osc.stop(ctx.currentTime + accumulator/1000);
-  return osc;
-}
-
-let playingOsc;
-let playing = false;
 playButton.addEventListener("click", () => {
-  if (!playing) {
+  if (!player.playing) {
 	const notes = [...(new RTTTLParser(textArea.value)).notes()];
-	playingOsc = playSquare(notes);
-	playingOsc.addEventListener("ended", () => {
-	  playing = false;
-	  playingOsc.disconnect();
-	})
-	playing = true;
+	player.playSquare(notes);
   }
 });
 
 stopButton.addEventListener("click", () => {
-  playingOsc.stop();
+  player.stop();
 });
 
 textArea.addEventListener("input", () => {
@@ -85,19 +66,12 @@ repo.getFileListAsync().then((text) => {
 	card.querySelector("label").textContent = filename;
 	const buttons = card.querySelectorAll("button");
 	buttons[0].addEventListener(("click"), async () => {
-	  if (!playing) {
+	  if (!player.playing) {
 		const notes = [...(new RTTTLParser(await repo.getFileTextAsync("./assets/tunes/" + filename))).notes()];
-		playingOsc = playSquare(notes);
-		playingOsc.addEventListener("ended", () => {
-		  playing = false;
-		  playingOsc.disconnect();
-		})
-		playing = true;
+		player.playSquare(notes);
 	  }
 	  else {
-		playingOsc.stop();
-		playingOsc.disconnect();
-		playing = false;
+		player.stop();
 	  }
 	});
 	buttons[1].addEventListener("click", async () => {
