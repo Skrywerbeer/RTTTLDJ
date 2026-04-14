@@ -1,3 +1,43 @@
+#library {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 20vh;
+	width: 80vw;
+
+	& ul {
+		list-style: none;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		width: 80vw;
+		gap: 0.5rem;
+
+		& li {
+			margin: 0;
+			padding: 0.2rem 0.8rem;
+			background: var(--primaryColor);
+			border: solid 4px white;
+			border-radius: 8px;
+			color: white;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+
+			& label {
+				margin-left: 1rem;
+			}
+
+			& button {
+				margin: 0.2rem;
+			}
+			& button:first-of-type {
+				margin-left: auto;
+			}
+		}
+	}
+}
+
 #songs {
 	& section {
 		display: none;
