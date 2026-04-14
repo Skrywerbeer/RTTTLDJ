@@ -1,3 +1,30 @@
+#controls {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 42px;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+	width: 80vw;
+
+	& div {
+		background: var(--primaryColor);
+		border: solid 4px white;
+		border-radius: 8px;
+		padding: 0.2rem 0.8rem;
+	}
+
+	& label {
+		font-size: 16pt;
+		color: white
+	}
+
+	& input[type="checkbox"] {
+
+	}
+}
+
+
 #library {
 	display: flex;
 	flex-direction: column;
