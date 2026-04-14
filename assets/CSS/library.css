@@ -5,35 +5,43 @@
 	height: 20vh;
 	width: 80vw;
 
-	& ul {
-		list-style: none;
-		padding: 0;
-		display: grid;
+	& section {
+
+	}
+}
+
+& ul {
+	list-style: none;
+	padding: 0;
+	display: grid;
+	grid-template-columns: 1fr;
+	@media(min-width: 1400px) {
 		grid-template-columns: repeat(3, 1fr);
-		width: 80vw;
-		gap: 0.5rem;
 
-		& li {
-			margin: 0;
-			padding: 0.2rem 0.8rem;
-			background: var(--primaryColor);
-			border: solid 4px white;
-			border-radius: 8px;
-			color: white;
-			display: flex;
-			flex-direction: row;
-			align-items: center;
+	}
+	width: 80vw;
+	gap: 0.5rem;
 
-			& label {
-				margin-left: 1rem;
-			}
+	& li {
+		margin: 0;
+		padding: 0.2rem 0.8rem;
+		background: var(--primaryColor);
+		border: solid 4px white;
+		border-radius: 8px;
+		color: white;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
 
-			& button {
-				margin: 0.2rem;
-			}
-			& button:first-of-type {
-				margin-left: auto;
-			}
+		& label {
+			margin-left: 1rem;
+		}
+
+		& button {
+			margin: 0.2rem;
+		}
+		& button:first-of-type {
+			margin-left: auto;
 		}
 	}
 }
