@@ -76,6 +76,7 @@ textarea {
 	justify-self: center;
 	width: 60vw;
 	height: 80vh;
+	margin-bottom: 3rem;
 	resize: none;
 	background: khaki;
 	color: black;
